@@ -1,5 +1,6 @@
-package com.tts.techtalentblog.model;
+package com.tts.techtalentblog.controller;
 
+import com.tts.techtalentblog.model.BlogPost;
 import com.tts.techtalentblog.repo.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,12 @@ public class BlogPostController {
     @Autowired
     private BlogPostRepository blogPostRepository;
 
+/*  this would be used instead of @Autowired - constructor based
+    dependence injection. Best practice if only one dependency.
+    public BlogPostController(BlogPostRepository blogPostRepository) {
+        this.blogPostRepository = blogPostRepository;
+    }
+*/
     /*
     This annotation will be used for our index method, which will
     return the template specified - a template called "index" in our
@@ -48,11 +55,12 @@ public class BlogPostController {
 
     @PostMapping(value = "/")
     public String addNewBlogPost(BlogPost blogPost, Model model) {
-        blogPostRepository.save(new BlogPost(
-                blogPost.getTitle(),
-                blogPost.getAuthor(),
-                blogPost.getBlogEntry()
-        ));
+//        blogPostRepository.save(new BlogPost(
+//                blogPost.getTitle(),
+//                blogPost.getAuthor(),
+//                blogPost.getBlogEntry()
+//        ));
+        blogPostRepository.save(blogPost);
         model.addAttribute("title", blogPost.getTitle());
         model.addAttribute("author", blogPost.getAuthor());
         model.addAttribute("blogEntry", blogPost.getBlogEntry());
