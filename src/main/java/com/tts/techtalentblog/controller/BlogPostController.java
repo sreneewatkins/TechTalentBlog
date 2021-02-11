@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  create a controller for our Blog Post class.  This controller will
  determine how the data and user will move through our project.  The
@@ -26,22 +29,27 @@ public class BlogPostController {
      */
     @Autowired
     private BlogPostRepository blogPostRepository;
-
-/*  this would be used instead of @Autowired - constructor based
+    /*  this would be used instead of @Autowired - constructor based
     dependence injection. Best practice if only one dependency.
     public BlogPostController(BlogPostRepository blogPostRepository) {
         this.blogPostRepository = blogPostRepository;
     }
 */
+    private static List<BlogPost> posts = new ArrayList<>();
+
     /*
     This annotation will be used for our index method, which will
     return the template specified - a template called "index" in our
     blog post template directory.
     This is the template our application will return when the user
     enters our root url.  It is our application's "Home Page".
+    Add a Model and then add our posts list to that Model as an attribute.
+    This will allow us to access that model, and therefore our list on our
+    Index page.
      */
     @GetMapping(value="/")
-    public String index(BlogPost blogPost) {
+    public String index(BlogPost blogPost, Model model) {
+        model.addAttribute("posts", posts);
         return "blogpost/index";
     }
 
@@ -51,9 +59,27 @@ public class BlogPostController {
     information to the database and display a "confirmation" on a new
     template called "result".
      */
+    /*
+    Now, we have our lists of all blog posts. Our index.html page needs to be
+    able to access this list so lets go ahead and edit our index method in our
+    BlogPostController to make that happen.
+    We're going to add a Model and then add our posts list to that Model as an
+    attribute. This will allow us to access that model, and therefore our list
+    on our Index page.
+     */
     private BlogPost blogPost;
 
-    @PostMapping(value = "/")
+    /*
+    We've told the application to expect a Post Request from the URL /blogposts
+    and to return the blogpost/result page. Now we need to give our users a way
+    to actually get to that page.
+     */
+    @GetMapping(value = "/blogposts/new")
+    public String newBlog (BlogPost blogPost) {
+        return "blogpost/new";
+    }
+
+    @PostMapping(value = "/blogposts")
     public String addNewBlogPost(BlogPost blogPost, Model model) {
 //        blogPostRepository.save(new BlogPost(
 //                blogPost.getTitle(),
@@ -61,6 +87,7 @@ public class BlogPostController {
 //                blogPost.getBlogEntry()
 //        ));
         blogPostRepository.save(blogPost);
+        posts.add(blogPost);
         model.addAttribute("title", blogPost.getTitle());
         model.addAttribute("author", blogPost.getAuthor());
         model.addAttribute("blogEntry", blogPost.getBlogEntry());
