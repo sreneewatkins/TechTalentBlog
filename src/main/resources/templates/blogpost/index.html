@@ -12,14 +12,15 @@ This is where Thymeleaf will help, by storing their input as variables.
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Blog Site</title>
 
-<!--  CSS CDN  -->
+    <!--  CSS CDN  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link href="../css/standard.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
+    <div th:replace="fragments/navbar :: navbar" ></div>
 
+    <div class="container">
         <h1>Welcome to Our Blog Post Site!</h1>
         <h3>Check out our blogs!</h3>
 
@@ -36,10 +37,18 @@ This is where Thymeleaf will help, by storing their input as variables.
                         </div>
                         <hr/>
                         <div class="panel-footer">
+                            Buttons
                             <!-- Link to Update -->
                             <!-- Link to Show  -->
                             <!--  Link to Destroy -->
-                            Buttons
+                            <form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
+                                  class="form-horizontal">
+                                <div class="form-group">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -48,12 +57,16 @@ This is where Thymeleaf will help, by storing their input as variables.
         <a th:href="@{/blogposts/new}">
             <button class= "btn btn-primary">Submit a New Blog Post</button>
         </a>
+
+
     </div>
 
     <!--  Bootstrap JS Bundle  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+
+    </script>
 </body>
 
 </html>
