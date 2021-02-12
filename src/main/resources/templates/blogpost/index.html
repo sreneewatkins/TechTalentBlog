@@ -29,19 +29,26 @@ This is where Thymeleaf will help, by storing their input as variables.
                         <div class="panel-heading">
                             <strong><p th:text="${blog.title}"/></strong>
                         </div>
+
                         <div class="panel-body">
                             <p th:text="${blog.author}"/>
                             <p th:text="${blog.blogEntry}" />
                         </div>
+
                         <div class="panel-footer">
                             <!-- Link to Update -->
+                            <div class="card-footer">
+                                <a href="#" th:href="@{blogposts/{id}(id=${blog.id})}">
+                                    <button class="btn btn-light">Edit Post</button>
+                                </a>
+                            </div>
                             <!-- Link to Show  -->
                             <!--  Link to Destroy Is it even passing a blogPost object to the deleteWithwhatever method in controller-->
                             <form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
                                   class="form-horizontal">
-                                <div class="form-group">
+                                <div class="card-footer">
                                     <input type="hidden" name="_method" value="delete"/>
-                                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete Post</button>
                                 </div>
                             </form>
                         </div>
@@ -53,6 +60,7 @@ This is where Thymeleaf will help, by storing their input as variables.
 <!--        <a th:href="@{/blogposts/new}">-->
 <!--            <button class= "btn btn-primary">Submit a New Blog Post</button>-->
 <!--        </a>-->
+
     </div>
 
     <div th:replace="/fragments/styling :: body-links" ></div>

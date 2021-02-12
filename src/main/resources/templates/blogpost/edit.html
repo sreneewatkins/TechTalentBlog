@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Blog</title>
+
+    <div th:replace="/fragments/styling :: head-style" ></div>
 </head>
+
 <body>
+<!--
+ In addition to the HTML tags, we have included the "th:"  attribute
+ in the tags to make the connection between our database tables and
+ the form.
+ -->
+<div th:replace="fragments/navbar :: navbar" ></div>
+
+<div class="container">
+    <h1>Edit This Blog Post</h1>
+    <p>Please use the form below to edit the Blog Post:</p>
+
+    <form action="#" th:action="@{~/blogposts/update/{id}(id=${blogPost.getId()})}" th:object="${blogPost}" method="post">
+        <table>
+            <tr>
+                <div class="form-group">
+                    <td><label for="blogTitle">Title</label></td>
+                    <td><input id="blogTitle" type="text" name="blogTitle" class="form-control" th:field="*{title}" /></td>
+                </div>
+            </tr>
+            <tr>
+                <div class="form-group">
+                    <td><label for="blogAuthor">Author:</label></td>
+                    <td><input id="blogAuthor" type="text" name="blogAuthor" class="form-control" th:field="*{author}" /></td>
+                </div>
+            </tr>
+            <tr>
+                <div class="form-group">
+                    <td><label for="blogEntry">Blog Entry:</label></td>
+                    <td><input id="blogEntry" type="text" name="blogEntry" class="form-control" th:field="*{blogEntry}" /></td>
+                </div>
+            </tr>
+            <tr>
+                <td><button class="btn btn-primary" type="submit">Submit Your Post</button></td>
+            </tr>
+        </table>
+    </form>
+    <td><a th:href="@{/}"><button class="btn btn-secondary">Cancel</button></a></td>
+
+<!--    <div th:each="blog:${posts}">-->
+<!--    <form action="#" th:action="@{~/blogposts/update/{id}(id=${blogPost.getId()})}" th:object="${blogPost}" method="POST">-->
+<!--        <label for="blogTitle">Title:</label>-->
+<!--        <input id="blogTitle" type="text" name="blogTitle" th:field="*{title}" />-->
+<!--        <label for="blogAuthor">Author:</label>-->
+<!--        <input id="blogAuthor" type="text" name="blogAuthor" th:field="*{author}" />-->
+<!--        <label for="blogEntry">Blog Entry:</label>-->
+<!--        <input id="blogEntry" type="text" name="blogEntry" th:field="*{blogEntry}" />-->
+<!--        <button type="submit" class="btn btn-success">Submit Your Blog</button>-->
+<!--    </form>-->
+<!--        </div>-->
+
+</div>
+
+
+<div th:replace="/fragments/styling :: body-links" ></div>
 
 </body>
+
 </html>

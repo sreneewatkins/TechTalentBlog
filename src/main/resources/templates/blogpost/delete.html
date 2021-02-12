@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Blog Site</title>
+
+    <div th:replace="/fragments/styling :: head-style" ></div>
+</head>
+
+<body>
+<div th:replace="fragments/navbar :: navbar" ></div>
+
+<div class="container">
+    <h3>This post has been DELETED!</h3>
+    <br/>
+    <h4>Blog Post:</h4>
+    <p th:text="${title}" />
+    <p th:text="${author}" />
+    <p th:text="${blogEntry}" />
+
+    <a th:href="@{/}"><button class="btn btn-success">Back To Home Page</button></a>
+    <a th:href="@{/blogposts/new}"><button class= "btn btn-primary">Submit Another Blog Post</button></a>
+</div>
+
+<div th:replace="/fragments/styling :: body-links" ></div>
+
+</body>
+
+</html>
+
+<!--
+This is the template that will display the results.
+-->

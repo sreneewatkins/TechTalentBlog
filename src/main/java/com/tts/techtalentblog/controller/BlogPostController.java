@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 /*
  create a controller for our Blog Post class.  This controller will
@@ -46,11 +47,19 @@ public class BlogPostController {
     Add a Model and then add our posts list to that Model as an attribute.
     This will allow us to access that model, and therefore our list on our
     Index page.
+    If you look at the documentation for findAll(), you'll see it returns a
+    Java object called an Iterable. Its a very basic type of object that
+    really only does one thing - allow a group of objects to be iterated on
+    (aka run a for-each loop on it). That's why we're able to include it
+    directly in our for-each loop above - that's what its built for.
      */
     @GetMapping(value="/")
     public String index(BlogPost blogPost, Model model) {
+        posts.removeAll(posts);
+        for (BlogPost post : blogPostRepository.findAll()) {
+            posts.add(post);
+        }
         model.addAttribute("posts", posts);
-
         return "blogpost/index";
     }
 
@@ -82,14 +91,9 @@ public class BlogPostController {
 
     @PostMapping(value = "/blogposts")
     public String addNewBlogPost(BlogPost blogPost, Model model) {
-//        blogPostRepository.save(new BlogPost(
-//                blogPost.getTitle(),
-//                blogPost.getAuthor(),
-//                blogPost.getBlogEntry()
-//        ));
         blogPostRepository.save(blogPost);
-        posts.add(blogPost);
-//        blogPostRepository.findAll();
+//        posts.add(blogPost);
+//        (List<BlogPost>)blogPostRepository.findAll();  //must cast this
         model.addAttribute("title", blogPost.getTitle());
         model.addAttribute("author", blogPost.getAuthor());
         model.addAttribute("blogEntry", blogPost.getBlogEntry());
@@ -97,7 +101,7 @@ public class BlogPostController {
     }
 
     @RequestMapping(value = "/blogposts/{id}", method = RequestMethod.DELETE)
-    public String deletePostWithId(@PathVariable Long id, BlogPost blogPost) {
+    public String deletePostWithId(@PathVariable Long id) {
         //There is no blogPost being passed from the delete button on index.html
         //removes object from arrayList
         posts.removeIf(post -> post.getId() == id);
@@ -111,6 +115,60 @@ public class BlogPostController {
         //removes object from database
         blogPostRepository.deleteById(id);
         return "blogpost/index";
+    }
+
+    /*
+    The only new thing here is deleteById(), which is another inherited method
+    from our Repository that does exactly what it says it does - deletes
+    records with the primary key you provide it!
+     */
+    @RequestMapping(value = "blogposts/delete/{id}")
+    public String deletePostById(@PathVariable Long id, BlogPost blogPost) {
+        blogPostRepository.deleteById(id);
+        return "blogpost/delete";
+    }
+
+    @RequestMapping(value = "/blogposts/{id}", method = RequestMethod.GET)
+    public String editPostWithId(@PathVariable Long id, BlogPost blogPost, Model model) {
+        Optional<BlogPost> post = blogPostRepository.findById(id);
+        if (post.isPresent()) {
+            BlogPost actualPost = post.get();
+            model.addAttribute("blogPost", actualPost);
+        }
+        return "blogpost/edit";
+    }
+    /*
+    deletePostWithID method:
+    service.deleteBlogPost(id);
+    posts = service.listAll();
+    model.addAttirbute("posts", posts);
+    return "blogpost/index";
+     */
+    /*
+    we just created a new endpoint of our app that we need to map correctly:
+    blogposts/update/{id}.
+    But if you look at the body of our if-statement, you can tell that we're
+    going about updating our existing post much differently than just saving
+    a new BlogPost like in addNewBlogPost(). We're using our getters and
+    setters that we generated in BlogPost.java to write over the existing
+    data with our new data.
+    Notice that we're still using blogPostRepository.save() like we are in
+    addNewBlogPost()! That's because save() is so smart that it handles both
+    the creation of new records AND the updating of existing ones.
+     */
+    @RequestMapping(value = "/blogposts/update/{id}")
+    public String updateExistingPost(@PathVariable Long id, BlogPost blogPost, Model model) {
+        Optional<BlogPost> post = blogPostRepository.findById(id);
+        if (post.isPresent()) {
+            BlogPost actualPost = post.get();
+            actualPost.setTitle(blogPost.getTitle());
+            actualPost.setAuthor(blogPost.getAuthor());
+            actualPost.setBlogEntry(blogPost.getBlogEntry());
+            blogPostRepository.save(actualPost);
+            model.addAttribute("blogPost", actualPost);
+        }
+        //maybe create an edited results page to return to?
+        return "blogpost/result";
     }
 
 }//end BlogPostController class
