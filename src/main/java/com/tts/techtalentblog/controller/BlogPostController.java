@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -49,6 +50,7 @@ public class BlogPostController {
     @GetMapping(value="/")
     public String index(BlogPost blogPost, Model model) {
         model.addAttribute("posts", posts);
+
         return "blogpost/index";
     }
 
@@ -87,6 +89,7 @@ public class BlogPostController {
 //        ));
         blogPostRepository.save(blogPost);
         posts.add(blogPost);
+//        blogPostRepository.findAll();
         model.addAttribute("title", blogPost.getTitle());
         model.addAttribute("author", blogPost.getAuthor());
         model.addAttribute("blogEntry", blogPost.getBlogEntry());
@@ -95,6 +98,17 @@ public class BlogPostController {
 
     @RequestMapping(value = "/blogposts/{id}", method = RequestMethod.DELETE)
     public String deletePostWithId(@PathVariable Long id, BlogPost blogPost) {
+        //There is no blogPost being passed from the delete button on index.html
+        //removes object from arrayList
+        posts.removeIf(post -> post.getId() == id);
+        /*
+        for (BlogPost post : posts ) {
+            if (post.getId() == id) {
+                posts.remove(post);
+            }
+        }
+        */
+        //removes object from database
         blogPostRepository.deleteById(id);
         return "blogpost/index";
     }
