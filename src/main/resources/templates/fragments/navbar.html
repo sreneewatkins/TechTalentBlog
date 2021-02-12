@@ -15,7 +15,7 @@
             <!-- Navbar content -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">TTS Project Blog              </a>
+                    <a class="navbar-brand" href="#">TTS Project Blog</a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
@@ -29,14 +29,15 @@
                                 <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Create New Blog Post</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
+                                <a class="nav-link" th:href="@{/blogposts/new}">Create New Blog Post</a>
                             </li>
                         </ul>
                         <span class="navbar-text">
-                            Navbar text with an inline element
+                            Thanks for sharing your thoughts and posts with our community
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search Blogs</button>
+                            </form>
                         </span>
                     </div>
                 </div>
@@ -46,52 +47,6 @@
 
 
     </div>
-
-<!--   delete this stuff   -->
-                        <li><a class="navbar-brand" th:href="@{/}">Back To Home Page</a></li>
-                        <li><a th:href="@{/blogposts/new}">Submit a New Blog Post</a></li>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-
-
-<!--                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-<!--                        <li><a href="#">Link</a></li>-->
-<!--                        <li class="dropdown">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-<!--                            <ul class="dropdown-menu">-->
-<!--                                <li><a href="#">Action</a></li>-->
-<!--                                <li><a href="#">Another action</a></li>-->
-<!--                                <li><a href="#">Something else here</a></li>-->
-<!--                                <li role="separator" class="divider"></li>-->
-<!--                                <li><a href="#">Separated link</a></li>-->
-<!--                                <li role="separator" class="divider"></li>-->
-<!--                                <li><a href="#">One more separated link</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                    <form class="navbar-form navbar-left">-->
-<!--                        <div class="form-group">-->
-<!--                            <input type="text" class="form-control" placeholder="Search">-->
-<!--                        </div>-->
-<!--                        <button type="submit" class="btn btn-default">Submit</button>-->
-<!--                    </form>-->
-<!--                    <ul class="nav navbar-nav navbar-right">-->
-<!--                        <li><a href="#">Link</a></li>-->
-<!--                        <li class="dropdown">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-<!--                            <ul class="dropdown-menu">-->
-<!--                                <li><a href="#">Action</a></li>-->
-<!--                                <li><a href="#">Another action</a></li>-->
-<!--                                <li><a href="#">Something else here</a></li>-->
-<!--                                <li role="separator" class="divider"></li>-->
-<!--                                <li><a href="#">Separated link</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;-->
-<!--            </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
-<!--        </nav>-->
-
 
 
     <div th:replace="/fragments/styling :: body-links" ></div>
