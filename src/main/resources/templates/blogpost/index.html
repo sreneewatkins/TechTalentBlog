@@ -38,29 +38,30 @@ This is where Thymeleaf will help, by storing their input as variables.
                         <div class="panel-footer">
                             <!-- Link to Update -->
                             <div class="card-footer">
-                                <a href="#" th:href="@{blogposts/{id}(id=${blog.id})}">
+                                <a th:href="@{blogposts/{id}(id=${blog.id})}">
                                     <button class="btn btn-light">Edit Post</button>
                                 </a>
-                            </div>
                             <!-- Link to Show  -->
-                            <!--  Link to Destroy Is it even passing a blogPost object to the deleteWithwhatever method in controller-->
-                            <form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
-                                  class="form-horizontal">
-                                <div class="card-footer">
+                            <!--  Link to Destroy -->
+<!--                                <form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"-->
+<!--                                  class="form-horizontal">-->
+<!--                                    <input type="hidden" name="_method" value="delete"/>-->
+<!--                                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete Post</button>-->
+<!--                                </form>-->
+                                <form th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
+                                      class="form-horizontal">
                                     <input type="hidden" name="_method" value="delete"/>
-                                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete Post</button>
-                                </div>
-                            </form>
+                                    <button type="submit" class="btn btn-danger" th:text="Delete">Delete Post</button>
+<!--    **** I like the inline <a> offers above but form works and <a> doesn't. also check diff in form and anchor tags-->
+                                </form>
+                            </div>
                         </div>
                         <hr/>
                     </div>
                 </div>
             </div>
         </div>
-<!--        <a th:href="@{/blogposts/new}">-->
-<!--            <button class= "btn btn-primary">Submit a New Blog Post</button>-->
-<!--        </a>-->
-
+        <!--had a submit button here-->
     </div>
 
     <div th:replace="/fragments/styling :: body-links" ></div>
